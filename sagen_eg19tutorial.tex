@@ -58,6 +58,10 @@
 
 \usepackage{egweblnk}
 \usepackage{cite}
+\usepackage{url}
+\usepackage{xcolor}
+
+\newcommand{\drnote}[1]{\textcolor{red}{[DANIEL: #1]}}
 
 % For backwards compatibility to old LaTeX type font selection.
 % Uncomment if your document adheres to LaTeX2e recommendations.
@@ -67,4 +71,204 @@
 
 % end of prologue
 
-\input{EGauthorGuidelines-body.inc}
+
+
+
+% \title[Structure-Aware Generative Models]%
+%       {Learning Structure-Aware Generative Models for 3D Shapes}
+\title[Learning Generative Models of 3D Structures]%
+      {Learning Generative Models of 3D Structures}
+
+% for anonymous conference submission please enter your SUBMISSION ID
+% instead of the author's name (and leave the affiliation blank) !!
+% for final version: please provide your *own* ORCID in the brackets following \orcid; see https://orcid.org/ for more details.
+\author[S. Chaudhuri \& K. Xu \& D. Ritchie \& H. Zhang]
+{\parbox{\textwidth}{\centering S. Chaudhuri$^{2}$\orcid{0000-0001-5923-423X},
+        \quad K. Xu$^{1}$\orcid{0000-0001-7756-0901},
+        \quad D. Ritchie$^{3}$\orcid{0000-0001-5923-423X},
+        \quad H. Zhang$^{4}$\orcid{0000-0001-5923-423X}
+        }
+        \\
+% For Computer Graphics Forum: Please use the abbreviation of your first name.
+{\parbox{\textwidth}{\centering $^1$ Adobe Research and IIT Bombay, India\\
+         $^2$ National University of Defense Technology, China\\
+         $^3$ Brown University, USA\\
+         $^4$ Simon Fraser University, Canada
+       }
+}
+}
+% ------------------------------------------------------------------------
+
+% if the Editors-in-Chief have given you the data, you may uncomment
+% the following five lines and insert it here
+%
+% \volume{36}   % the volume in which the issue will be published;
+% \issue{1}     % the issue number of the publication
+% \pStartPage{1}      % set starting page
+
+
+%-------------------------------------------------------------------------
+\begin{document}
+
+% uncomment for using teaser
+% \teaser{
+%  \includegraphics[width=\linewidth]{eg_new}
+%  \centering
+%   \caption{New EG Logo}
+% \label{fig:teaser}
+%}
+
+\maketitle
+%-------------------------------------------------------------------------
+% \begin{abstract}
+%   The ABSTRACT is to be in fully-justified italicized text, 
+%   between two horizontal lines,
+%   in one-column format, 
+%   below the author and affiliation information. 
+%   Use the word ``Abstract'' as the title, in 9-point Times, boldface type, 
+%   left-aligned to the text, initially capitalized. 
+%   The abstract is to be in 9-point, single-spaced type.
+%   The abstract may be up to 3 inches (7.62 cm) long. \\
+%   Leave one blank line after the abstract, 
+%   then add the subject categories according to the ACM Classification Index   
+% \end{abstract}  
+%-------------------------------------------------------------------------
+\section{Introduction}
+
+3D content creation is directly relevant in several important contexts, including computer-aided design (CAD), virtual and augmented reality, cinema and computer games, and digital storytelling. Yet, 3D modeling has long remained a notoriously inaccessible skill: the domain only of well-trained experts. Modern research has focused on incorporating domain knowledge and automatic low-level geometric synthesis into the modeling tool, so that users can focus only on high-level, goal-driven specifications, which are more natural for humans to provide. This incorporated knowledge is formulated as generative models of 3D structure: statistical distributions over spaces of 3D shapes (or scenes) that (a) are \mbox{\em structure-aware}, i.e. they directly represent the shape at a high-level of abstraction suitable for layering design semantics,  and (b) are \mbox{\em generative}, i.e. they can be sampled (unconditionally or conditionally) for new shapes, a critical requirement for design applications.
+
+In this tutorial, we will give the audience a full account of important techniques and directions for building generative models of 3D structures. The first half of the tutorial will be introductory, providing both a broad overview of the field as well as a quick refresher of important algorithmic ideas from geometric analysis and machine learning. The second half will consist of a deep dive into the most exciting methods for building generative models of single shapes and composite scenes. We will highlight how standard data-driven methods need to be adapted, or new methods developed, in order to create models that are both generative and structure-aware. At the end, attendees should come away with a historical context, a high-level understanding of all relevant work in the area, and familiarity with the mathematical tools to explore further.
+
+%-------------------------------------------------------------------------
+\section{Presenter Details}
+
+\textbf{Siddhartha Chaudhuri}
+\newline
+Adobe Research, IIT Bombay
+\newline
+\url{sidch@adobe.com}
+\newline
+\url{https://www.cse.iitb.ac.in/~sidch}
+
+\noindent
+\textbf{Kai (Kevin) Xu}
+\newline
+National University of Defense Technology
+\newline
+\url{kevin.kai.xu@gmail.com}
+\newline
+\url{https://kevinkaixu.net}
+
+\noindent
+\textbf{Daniel Ritchie}
+\newline
+Brown University
+\newline
+\url{daniel_ritchie@brown.edu}
+\newline
+\url{https://dritchie.github.io}
+
+\noindent
+\textbf{Hao (Richard) Zhang }
+\newline
+Simon Fraser University
+\newline
+\url{haoz@cs.sfu.ca}
+\newline
+\url{https://www.cs.sfu.ca/~haoz}
+
+%-------------------------------------------------------------------------
+\section{Tutorial Details}
+
+\paragraph*{Title:}
+Learning Generative Models of 3D Structures
+
+\paragraph*{Keywords:}
+3D Modeling, Generative Models, Deep Learning, Procedural Modeling, Shape Analysis, Scene Understanding
+
+\paragraph*{Tutorial Format:}
+Half day (2 x 90 minutes)
+
+%-------------------------------------------------------------------------
+\section{Tutorial Outline}
+
+\noindent
+\textbf{Introduction (40 mins)}
+\newline
+\textbf{Presenter:} Hao (Richard) Zhang
+\newline
+Richard will introduce the presenters, the topics to be covered by each, and our learning goal for the day: attendees who leave this tutorial at the end of the day should feel equipped to start their own research project in generative modeling of 3D shape and scene structures, or to integrate existing research results into their own systems. He will then outline the relevant history of structure-aware shape analysis, which is foundational for modern-day work on structure-aware shape synthesis and generative modeling. Finally, he will highlight the latest and greatest state-of-the-art results in this field, using deep neural networks and deep generative models, which subsequent presenters will explore in more detail.
+
+\noindent
+\textbf{Geometric and Generative Modeling Basics (40 mins)}
+\newline
+\textbf{Presenter:} Siddhartha Chaudhuri
+\newline
+Sid will present the relevant technical material that audience members must understand to do work in generative geometric modeling.
+One part of this section focuses on different representations of geometry --- meshes, volumes, point clouds, part assemblies, parametric models, etc --- and their relative strengths and weaknesses from the perspective of machine learning and generative modeling. The other part of this section focuses on the types of machine learning models used for generative 3D modeling, and how those models may vary from their application in other (non-3D) domains. These include probabilistic graphical models (Bayesian networks, factor graphs, stochastic grammars), variational autoencoders (VAEs), generative adversarial networks (GANs) and other types of deep neural networks, and probabilistic program induction.
+
+\noindent
+\textbf{BREAK (10 mins)}
+
+\noindent
+\textbf{Generative Modeling of 3D Shapes (40 mins)}
+\newline
+\textbf{Presenter:} Kai (Kevin) Xu
+\newline
+In this section, Kevin will present and explain different data-driven methods for synthesizing structured shapes. He will briefly recap early approaches to the problem, including largely handwritten models, move on to relatively low-dimensional data-driven models (parametrized templates, graphical models, grammars, etc), and then focus on modern approaches based on deep neural networks. He will explain why structure-aware generative models present particular difficulties for standard statistical architectures (fixed-dimensional graphical models or neural networks), since they need to process graphs with varying topologies and complexities. He will highlight various important approaches to this problem, including deep hierarchical models. He will also suggest best practices in this area, and outline directions for the future where the generation is conditioned on functional and semantic objectives, for goal-driven design.
+
+\noindent
+\textbf{Generative Modeling of 3D Scenes (40 mins)}
+\newline
+\textbf{Presenter:} Daniel Ritchie
+\newline
+In this final section, Daniel will show how to go from generative models of individual shapes to generative models of scenes made of multiple objects, motivating why different models are needed for this different scale of content.
+This section will focus in particular on indoor scene modeling, since that problem is less suited to rule-based / procedural methods than outdoor / urban scene modeling (and thus requires learning-based methods).
+Daniel will briefly cover the history of indoor scene synthesis, starting with rule-based systems and moving into partially and fully data-driven systems.
+He will focus primarily on the state-of-the-art methods, which are mostly based on deep neural networks, highlighting the different scene representations they use and their relative strengths and weaknesses.
+This section will conclude with a look at what scene generative modeling problems are still difficult or unsolved, and what datasets and resources are available for those who wish to explore this area for themselves.
+
+%-------------------------------------------------------------------------
+\section{Necessary Background and Target Audience}
+
+\paragraph*{Background}
+This tutorial is designed to be as accessible as possible.
+It will require a basic background in the fundamentals of computer graphics: basic geometry, transformation matrices, etc.
+Some topics covered will assume familiarity with slightly more advanced concepts from linear algebra, e.g. singular value decompositions.
+As the tutorial focuses on machine learning models, comfort with the basics of probability and statistics is also a must.
+
+\paragraph*{Target Audience}
+This tutorial is aimed at two audiences:
+\begin{enumerate}
+    \item New graduate students in computer graphics, or more experienced researchers in other fields who are looking for an entry point into this exciting field.
+    \item Graphics software engineers and developers looking to understand these technologies and how they might fit into their own pipelines, products, or services.
+\end{enumerate}
+Our goal is, at the end of the day, for people in group 1 to feel confident that they have the background and resources necessary to start independent research of their own in this area, and for people in group 2 to feel confident that they know where to look (and with whom to consult) if they want to integrate research results into their work.
+
+%-------------------------------------------------------------------------
+\section{Presenter Resumes}
+
+% A brief resume of the presenter(s) indicating their background in the area the tutorial addresses.
+
+\paragraph*{Siddhartha Chaudhuri}
+Siddhartha Chaudhuri is Senior Research Scientist in the Creative Intelligence Lab at Adobe Research, and Assistant Professor of Computer Science and Engineering at IIT Bombay. He obtained his Ph.D. from Stanford University, and his undergraduate degree from IIT Kanpur. He subsequently did postdoctoral research at Stanford and Princeton, and taught for a year at Cornell. Siddhartha's work combines geometric analysis, machine learning, and UI innovation to make sophisticated 3D geometric modeling accessible even to non-expert users. He also studies foundational problems in geometry processing (retrieval, segmentation, correspondences) that arise from this pursuit. His research themes include probabilistic assembly-based modeling~\cite{Chaudhuri2011,Kalogerakis2012,Kim2013,Sung2017}, semantic attributes for design~\cite{Chaudhuri2013,Yumer2015}, and generative neural networks for 3D structures~\cite{li2017grass,zhu2018scores,Li2018}. He is the original author of the commercial 3D modeling tool Adobe Fuse, and has taught tutorials on data-driven 3D design (\mbox{SIGGRAPH} Asia 2014) and shape ``semantics'' (\mbox{ICVGIP} 2016).
+
+\paragraph*{Kai (Kevin) Xu}
+Kai Xu is an Associate Professor at the School of Computer Science, National University of Defense Technology, where he received his Ph.D. in 2011. He conducted visiting research at Simon Fraser University (2008-2010) and Princeton University (2017-2018). His research interests include geometry processing and geometric modeling, especially on data-driven approaches to the problems in those directions, as well as 3D vision and its robotic applications. He has published over 60 research papers, including 21 SIGGRAPH/TOG papers. He organized a SIGGRAPH Asia course~\cite{xu2017data} and a Eurographics STAR tutorial~\cite{xu2016data}, both on data-driven shape analysis and processing. He is currently serving on the editorial board of Computer Graphics Forum, Computers \& Graphics, and The Visual Computer. He also served as paper co-chair of CAD/Graphics 2017 and ICVRV 2017, as well as PC member for several prestigious conferences including SIGGRAPH, SIGGRAPH Asia, SGP, PG, GMP, etc. Kai has made several major contributions to structure-aware 3D shape analysis and modeling with data-driven approach~\cite{xu2010style,xu2011photo,xu2012fit,van2013co}, and recently with deep learning methods~\cite{li2017grass,li2018grains,zhu2018scores}.
+
+\paragraph*{Daniel Ritchie}
+Daniel Ritchie is an Assistant Professor of Computer Science at Brown University.
+He received his PhD from Stanford University, advised by Pat Hanrahan and Noah Goodman.
+His research sits at the intersection of computer graphics and artificial intelligence, where he is particularly interested in data-driven methods for designing, synthesizing, and manipulating visual content.
+In the area of generative models for structured 3D content, he co-authored the first data-driven method for synthesizing 3D scenes~\cite{SceneSynth}, as well as the first method applying deep learning to scene synthesis~\cite{DeepSynthSIGGRAPH2018}.
+He has also worked extensively on applying techniques from probabilistic programming to procedural modeling problems~\cite{GraphicsHMC,SOSMC,NGPM}, including to learning procedural modeling programs from examples~\cite{ProcmodLearn}. 
+In related work, he has developed systems for inferring generative graphics programs from unstructured visual inputs such as hand-drawn sketches~\cite{TikzPaper}.
+
+\paragraph*{Hao (Richard) Zhang}
+Hao (Richard) Zhang is a professor in the School of Computing Science at Simon Fraser University, Canada. He obtained his Ph.D. from the Dynamic Graphics Project (DGP), University of Toronto, and M.Math. and B.Math degrees from the University of Waterloo, all in computer science. Richard's research is in computer graphics with special interests in geometric modeling, analysis and synthesis of 3D contents (e.g., shapes and indoor scenes), machine learning (e.g., generative models for 3D shapes), as well as computational design, fabrication, and creativity. He has published more than 120 papers on these topics. Most relevant to the proposed tutorial topic, Richard was one of the co-authors of the first Eurographics STAR on structure-aware shape processing~\cite{mitra_star13} and taught SIGGRAPH courses on the topic. With his collaborators, he has made original and impactful contributions to structural analysis and synthesis of 3D shapes and environments including co-analysis~\cite{xu2010style,sidi_siga11,van2013co}, hierarchical modeling~\cite{wang2011symmetry,van2013co,li2017grass}, semi-supervised learning~\cite{wang_siga12,yu_tog18}, topology-varying shape correspondence and modeling~\cite{ib_siga15,alhashim_sig14,zhu_sig17}, and deep generative models~\cite{li2017grass,li2018grains,zhu2018scores}. 
+
+\bibliographystyle{eg-alpha}
+\bibliography{main}
+
+\end{document}
+
